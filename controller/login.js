@@ -5,7 +5,7 @@ const UserModel = require('../model/user')
 const LoginController = async (ctx, next) => {
   const { username, password } = ctx.request.body
   const user = await UserModel.findOne({ username, password: md5(password) })
-  if (user) {
+  if (user !== null) {
     ctx.cookies.set('userid', user._id, { maxAge: 1000 * 60 * 60 * 24 })
     // if (user.role_id) {} else {}
 

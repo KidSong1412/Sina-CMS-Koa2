@@ -6,6 +6,7 @@ const bodyparser = require('koa-bodyparser')
 const db = require('./config/db')
 const index = require('./routes/index')
 const user = require('./routes/user')
+const cate = require('./routes/cate')
 
 //数据库连接
 db()
@@ -21,5 +22,6 @@ app.use(require('koa-static')(__dirname + '/public'))
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(user.routes(), user.allowedMethods())
+app.use(cate.routes(), cate.allowedMethods())
 
 module.exports = app

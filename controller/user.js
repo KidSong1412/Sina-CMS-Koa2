@@ -6,19 +6,23 @@ class UserController {
   static add = async (ctx, next) => {
     const { username, password } = ctx.request.body
     const user = await UserModel.findOne({ username })
-    if (user.length) {
+    if (user !== null) {
       ctx.body = {
         status: 1,
         msg: '此用户已存在'
       }
     } else {
-      const res = await UserModel.create({ ...ctx.request.body, password: md5(password) })
-      if (res.length) {
+      try {
+        const res = await UserModel.create({ ...ctx.request.body, password: md5(password) })
         ctx.body = {
           status: 0,
-          data: res
+          data: {
+            _id: res._id,
+            username: res.username,
+            create_time: res.create_time
+          }
         }
-      } else {
+      } catch (e) {
         ctx.body = {
           status: 1,
           msg: '添加用户异常, 请重新尝试'
@@ -31,17 +35,16 @@ class UserController {
 
   static update = async (ctx, next) => {
     const user = ctx.request.body
-    const UserData = await UserModel.findOneAndUpdate({ _id: user._id }, user, { "fields": {
-      "username": 1,
-      "create_time": 1
-    }})
-    if (UserData.length) {
-      const data = Object.assign(UserData, user)
+    try {
+      const UserData = await UserModel.findOneAndUpdate({ _id: user._id }, user, { "fields": {
+        "username": 1,
+        "create_time": 1
+      }})
       ctx.body = {
         status: 0,
-        data
+        data: UserData
       }
-    } else {
+    } catch (e) {
       ctx.body = {
         status: 1,
         msg: '更新用户异常, 请重新尝试'
@@ -53,21 +56,24 @@ class UserController {
 
   static delete = async (ctx, next) => {
     const { userId } = ctx.request.body
-    const res = await UserModel.deleteOne({ _id: userId })
-    if (res.length) {
+    try {
+      await UserModel.deleteOne({ _id: userId })
       ctx.body = {
         status: 0
       }
-    }
+    } catch (e) {}
 
     await next()
   }
 
   static list = async (ctx, next) => {
-    const users = await UserModel.find({ username: { '$ne': 'admin' } })
-    ctx.body = users
-    if (users.length) {
-      RoleModel.find().then(roles => {
+    const users = await UserModel.find({ username: { '$ne': 'admin' } }, {
+      "username": 1,
+      "create_time": 1
+    })
+    if (users !== null) {
+      const roles = await RoleModel.find()
+      if (roles !== null) {
         ctx.body = {
           status: 0,
           data: {
@@ -75,14 +81,12 @@ class UserController {
             roles
           }
         }
-      }).catch(error => {
-        ctx.body = {
-          status: 1,
-          msg: '获取用户列表异常, 请重新尝试'
-        }
-      })
+      }
     } else {
-      ctx.body = 2
+      ctx.body = {
+        status: 1,
+        msg: '获取用户列表异常, 请重新尝试'
+      }
     }
   }
 }
