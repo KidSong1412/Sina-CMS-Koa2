@@ -7,6 +7,7 @@ const db = require('./config/db')
 const index = require('./routes/index')
 const user = require('./routes/user')
 const cate = require('./routes/cate')
+const prod = require('./routes/prod')
 
 //数据库连接
 db()
@@ -23,5 +24,6 @@ app.use(require('koa-static')(__dirname + '/public'))
 app.use(index.routes(), index.allowedMethods())
 app.use(user.routes(), user.allowedMethods())
 app.use(cate.routes(), cate.allowedMethods())
+app.use(prod.routes(), prod.allowedMethods())
 
 module.exports = app
