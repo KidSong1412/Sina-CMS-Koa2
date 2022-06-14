@@ -78,6 +78,23 @@ class ProductController {
     
     await next()
   }
+
+  static updateStatus = async (ctx, next) => {
+    const { productId, status } = ctx.request.body
+    try {
+      await ProductModel.findOneAndUpdate({ _id: productId }, { status })
+      ctx.body = {
+        status: 0
+      }
+    } catch (e) {
+      ctx.body = {
+        status: 1,
+        msg: '更新产品状态异常, 请重新尝试'
+      }
+    }
+
+    await next()
+  }
 }
 
 module.exports = ProductController

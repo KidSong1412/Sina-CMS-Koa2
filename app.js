@@ -8,6 +8,7 @@ const index = require('./routes/index')
 const user = require('./routes/user')
 const cate = require('./routes/cate')
 const prod = require('./routes/prod')
+const role = require('./routes/role')
 
 const { pageFilter } = require('./common/common')
 
@@ -27,6 +28,7 @@ app.use(index.routes(), index.allowedMethods())
 app.use(user.routes(), user.allowedMethods())
 app.use(cate.routes(), cate.allowedMethods())
 app.use(prod.routes(), prod.allowedMethods())
+app.use(role.routes(), role.allowedMethods())
 
 //common
 app.context.pageFilter = pageFilter

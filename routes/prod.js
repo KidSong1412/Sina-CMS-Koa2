@@ -12,5 +12,7 @@ router.get('/list', ProductController.list)
 router.get('/search', ProductController.search)
 //更新商品
 router.post('/update', ProductController.update)
+//更新商品状态
+router.post('/updateStatus', ProductController.updateStatus)
 
 module.exports = router
