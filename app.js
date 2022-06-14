@@ -4,11 +4,12 @@ const json = require('koa-json')
 const bodyparser = require('koa-bodyparser')
 
 const db = require('./config/db')
-const index = require('./routes/index')
-const user = require('./routes/user')
-const cate = require('./routes/cate')
-const prod = require('./routes/prod')
-const role = require('./routes/role')
+const indexRoute = require('./routes/index')
+const userRoute = require('./routes/user')
+const cateRoute = require('./routes/cate')
+const prodRoute = require('./routes/prod')
+const roleRoute = require('./routes/role')
+const fileRoute = require('./routes/file')
 
 const { pageFilter } = require('./common/common')
 
@@ -24,11 +25,12 @@ app.use(require('koa-static')(__dirname + '/public'))
 
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(user.routes(), user.allowedMethods())
-app.use(cate.routes(), cate.allowedMethods())
-app.use(prod.routes(), prod.allowedMethods())
-app.use(role.routes(), role.allowedMethods())
+app.use(indexRoute.routes(), indexRoute.allowedMethods())
+app.use(userRoute.routes(), userRoute.allowedMethods())
+app.use(cateRoute.routes(), cateRoute.allowedMethods())
+app.use(prodRoute.routes(), prodRoute.allowedMethods())
+app.use(roleRoute.routes(), roleRoute.allowedMethods())
+app.use(fileRoute.routes(), fileRoute.allowedMethods())
 
 //common
 app.context.pageFilter = pageFilter

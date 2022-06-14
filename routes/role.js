@@ -1,4 +1,5 @@
 const router = require('koa-router')()
+
 const RoleController = require('../controller/role')
 
 router.prefix('/manage/role')
