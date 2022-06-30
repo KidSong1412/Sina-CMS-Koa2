@@ -2,7 +2,7 @@ const router = require('koa-router')()
 
 const UserController = require('../controller/user')
 
-router.prefix('/manage/users')
+router.prefix('/manage/user')
 
 //添加用户
 router.post('/add', UserController.add)
