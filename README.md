@@ -1,6 +1,6 @@
 # Sina-CMS-Koa2
 ### 简介：
-新浪CMS开源框架Koa2版
+新浪CMS开源框架Koa2版  
 后台前端React版：https://github.com/KidSong1412/Sina-CMS-React
 ### 准备：
 1、安装Mon个DB；
